@@ -47,6 +47,14 @@ for (var i = 0; i < skuList.length; i++) {
                     this.parentNode.querySelectorAll('input[type="radio"]')[k].checked = false;
                 }
                 
+                if (this.parentNode.querySelector('input[type="number"]') !== null) {
+                    this.parentNode.querySelector('input[type="number"]').remove();
+                }
+                
+                if (this.parentNode.querySelector('input[type="text"]') !== null) {
+                    this.parentNode.querySelector('input[type="text"]').remove();
+                }
+                
                 this.setAttribute("name", "add");
             } else {
                 console.log(this.getAttribute("name"));
@@ -98,7 +106,6 @@ for (var i = 0; i < skuList.length; i++) {
     }
 
 function addSku() {
-   // event.preventDefault;
     console.log(skuName + " " + skuOOS + " " + skuNotEnough + " " + skuQuantity);
     
     oosList.push(new sku(skuName, skuOOS, skuNotEnough, skuQuantity, skuComment)); 
@@ -117,7 +124,7 @@ function quant() {
             var q = document.createElement('input');
             q.setAttribute("type", "number");
             this.parentNode.parentNode.appendChild(q);
-            //skuQuantity = q.value.toString();
+            q.focus();
         });
         
         skuList[i].querySelector('button[name="add-comment"]').addEventListener('click', function() {
@@ -126,8 +133,9 @@ function quant() {
                 this.parentNode.querySelector('input[type="text"]').remove();
             }
             var c = document.createElement('input');
-            c.setAttribute("type", "text");
+            c.setAttribute("type", "text");            
             this.parentNode.appendChild(c);
+            c.focus();
             
         })
     }
@@ -147,9 +155,3 @@ submit.addEventListener('click', function(e) {
     alert("JSON saved like this:\n" + arrStr);  
     return arrStr;
 });
-
-//function save(e) {
-//    e.prevent
-//    JSON.stringify(oosList);
-//    alert("JSON saved like this:\n" + oosList);
-//}
