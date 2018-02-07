@@ -19,15 +19,20 @@ var sku = function(name, oos, notEnough, q, comment) {
 quant();
 
 for (var i = 0; i < skuList.length; i++) {
-        skuList[i].querySelector('button[class="add"]').addEventListener('click', function(){            
+        skuList[i].querySelector('button[class="add"]').addEventListener('click', function(){
+            console.log(this.getAttribute("name"))
             if (this.getAttribute("name") === "remove") {
+                console.log(this.getAttribute("name"));
                 skuName = this.previousElementSibling.innerText;
                 for (var key in oosList) {
+                    console.log(key);
+                    console.log(oosList[key].name);
                     if (oosList[key].name === skuName) {
                         oosList.splice(key, 1);
                     }
+                    
                 }
-                
+                console.log(oosList);
                 this.innerText = "+++";
                 
                 if (this.parentNode.classList.contains("sku-second") === true) {
@@ -37,6 +42,8 @@ for (var i = 0; i < skuList.length; i++) {
                 }
                 
                 for (var k = 0; k < this.parentNode.querySelectorAll('input[type="radio"]').length; k++) {
+                   console.log(this);
+                    console.log(this.parentNode.querySelectorAll('input[type="radio"]')[k] + " " + this.parentNode.querySelectorAll('input[type="radio"]')[k].value); 
                     this.parentNode.querySelectorAll('input[type="radio"]')[k].checked = false;
                 }
                 
@@ -50,7 +57,11 @@ for (var i = 0; i < skuList.length; i++) {
                 
                 this.setAttribute("name", "add");
             } else {
+                console.log(this.getAttribute("name"));
+                console.log(this.previousElementSibling);
                 skuName = this.previousElementSibling.innerText;
+                console.log(this.parentNode.querySelectorAll('input[type="radio"]')[0]);
+                console.log(this.parentNode.querySelectorAll('input[type="radio"]')[1]);
                 
                 if (this.parentNode.querySelectorAll('input[type="radio"]')[0].checked === true) {
                     skuOOS = true;
@@ -60,9 +71,11 @@ for (var i = 0; i < skuList.length; i++) {
                 } else {
                     skuOOS = false;
                 }
+                console.log(skuOOS);
                 
                 if (this.parentNode.querySelectorAll('input[type="radio"]')[1].checked === true) {
-                    skuNotEnough = true;                    
+                    skuNotEnough = true;
+                    console.log(this.parentNode.querySelector('input[type="number"]').value);
                     skuQuantity = this.parentNode.querySelector('input[type="number"]').value.toString();
                 } else {
                     skuNotEnough = false;
@@ -75,6 +88,14 @@ for (var i = 0; i < skuList.length; i++) {
                         skuComment = "";
                     }
                 
+                console.log(skuNotEnough);
+                
+                console.log(skuName);
+                
+                console.log(skuQuantity);
+                
+                console.log(skuComment);
+                
                 addSku();
                 this.innerText = "---"; 
                 this.parentNode.style.backgroundColor = "#87ab89"
@@ -85,15 +106,18 @@ for (var i = 0; i < skuList.length; i++) {
     }
 
 function addSku() {
-    console.log(skuName + " " + skuOOS + " " + skuNotEnough + " " + skuQuantity + " " + skuComment);
+    console.log(skuName + " " + skuOOS + " " + skuNotEnough + " " + skuQuantity);
     
     oosList.push(new sku(skuName, skuOOS, skuNotEnough, skuQuantity, skuComment)); 
     console.log(oosList);
+    console.log(oosList.length);
 }
 
 function quant() {
     for (var i = 0; i < skuList.length; i++) {
         skuList[i].querySelectorAll('input[type="radio"]')[1].addEventListener('click', function() {
+            console.log(this);
+            console.log(this.parentNode.parentNode);
             if (this.parentNode.parentNode.querySelector('input[type="number"]') !== null) {
                 this.parentNode.parentNode.querySelector('input[type="number"]').remove();
             }
@@ -103,7 +127,8 @@ function quant() {
             q.focus();
         });
         
-        skuList[i].querySelector('button[name="add-comment"]').addEventListener('click', function() {            
+        skuList[i].querySelector('button[name="add-comment"]').addEventListener('click', function() {
+            console.log(this);
             if (this.parentNode.querySelector('input[type="text"]') !== null) {
                 this.parentNode.querySelector('input[type="text"]').remove();
             }
@@ -124,9 +149,9 @@ submit.addEventListener('click', function(e) {
     e.preventDefault(); 
     for (var j = 0; j < oosList.length; j++) {        
         arrStr += JSON.stringify(oosList[j]);
+        console.log(arrStr);        
     }
     
-    console.log(arrStr);        
     alert("JSON saved like this:\n" + arrStr);  
     return arrStr;
 });
