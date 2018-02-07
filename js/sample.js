@@ -5,13 +5,14 @@ var skuName = "";
 var skuOOS = false;
 var skuNotEnough = false;
 var skuQuantity = "";
+var skuComment = "";
 
-var sku = function(name, oos, notEnough, q) {
+var sku = function(name, oos, notEnough, q, comment) {
     this.name = name;
     this.oos = oos;
     this.notEnough = notEnough;
     this.quantity = +q;
-    this.comment = "";
+    this.comment = comment;
     
 };
 
@@ -44,7 +45,7 @@ for (var i = 0; i < skuList.length; i++) {
                 if (this.parentNode.querySelectorAll('input[type="radio"]')[0].checked === true) {
                     skuOOS = true;
                     if (this.parentNode.querySelector('input[type="number"]') !== null) {
-                         this.parentNode.querySelector('input[type="number"]').value = "";
+                         this.parentNode.querySelector('input[type="number"]').remove();
                          }
                 } else {
                     skuOOS = false;
@@ -59,11 +60,21 @@ for (var i = 0; i < skuList.length; i++) {
                     skuNotEnough = false;
                     skuQuantity = "";
                 }
+                
+                if (this.parentNode.querySelector('input[type="text"]') !== null) {
+                    skuComment = this.parentNode.querySelector('input[type="text"]').value;
+                    } else {
+                        skuComment = "";
+                    }
+                
                 console.log(skuNotEnough);
                 
                 console.log(skuName);
                 
                 console.log(skuQuantity);
+                
+                console.log(skuComment);
+                
                 addSku();
                 this.innerText = "---";           
                 this.setAttribute("name", "remove");
@@ -76,7 +87,7 @@ function addSku() {
    // event.preventDefault;
     console.log(skuName + " " + skuOOS + " " + skuNotEnough + " " + skuQuantity);
     
-    oosList.push(new sku(skuName, skuOOS, skuNotEnough, skuQuantity)); 
+    oosList.push(new sku(skuName, skuOOS, skuNotEnough, skuQuantity, skuComment)); 
     console.log(oosList);
     console.log(oosList.length);
 }
@@ -86,15 +97,48 @@ function quant() {
         skuList[i].querySelectorAll('input[type="radio"]')[1].addEventListener('click', function() {
             console.log(this);
             console.log(this.parentNode.parentNode);
+            if (this.parentNode.parentNode.querySelector('input[type="number"]') !== null) {
+                this.parentNode.parentNode.querySelector('input[type="number"]').remove();
+            }
             var q = document.createElement('input');
             q.setAttribute("type", "number");
             this.parentNode.parentNode.appendChild(q);
             //skuQuantity = q.value.toString();
         });
+        
+        skuList[i].querySelector('button[name="add-comment"]').addEventListener('click', function() {
+            console.log(this);
+            if (this.parentNode.querySelector('input[type="text"]') !== null) {
+                this.parentNode.querySelector('input[type="text"]').remove();
+            }
+            var c = document.createElement('input');
+            c.setAttribute("type", "text");
+            this.parentNode.appendChild(c);
+            
+        })
     }
 }
 
+var jsonStr = "";
 
-function save(e) {
-//    e.preventDefault;
-}
+var submit = document.querySelector('#submit');
+submit.addEventListener('click', function(e) {
+    e.preventDefault();
+    var arrStr = "";
+    for (var j = 0; j < oosList.length; j++) {
+        
+        arrStr += JSON.stringify(oosList[j]);
+        console.log(arrStr);
+        
+    }
+    jsonStr = JSON.stringify(arrStr);
+    console.log(jsonStr);
+    
+    alert("JSON saved like this:\n" + jsonStr);   
+});
+
+//function save(e) {
+//    e.prevent
+//    JSON.stringify(oosList);
+//    alert("JSON saved like this:\n" + oosList);
+//}
