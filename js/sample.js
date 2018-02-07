@@ -34,6 +34,19 @@ for (var i = 0; i < skuList.length; i++) {
                 }
                 console.log(oosList);
                 this.innerText = "+++";
+                
+                if (this.parentNode.classList.contains("sku-second") === true) {
+                    this.parentNode.style.backgroundColor = "#ccc";
+                } else {
+                    this.parentNode.style.backgroundColor = "unset";
+                }
+                
+                for (var k = 0; k < this.parentNode.querySelectorAll('input[type="radio"]').length; k++) {
+                   console.log(this);
+                    console.log(this.parentNode.querySelectorAll('input[type="radio"]')[k] + " " + this.parentNode.querySelectorAll('input[type="radio"]')[k].value); 
+                    this.parentNode.querySelectorAll('input[type="radio"]')[k].checked = false;
+                }
+                
                 this.setAttribute("name", "add");
             } else {
                 console.log(this.getAttribute("name"));
@@ -76,7 +89,8 @@ for (var i = 0; i < skuList.length; i++) {
                 console.log(skuComment);
                 
                 addSku();
-                this.innerText = "---";           
+                this.innerText = "---"; 
+                this.parentNode.style.backgroundColor = "#87ab89"
                 this.setAttribute("name", "remove");
                 }
 
@@ -119,22 +133,19 @@ function quant() {
     }
 }
 
-var jsonStr = "";
+var arrStr = "";
 
 var submit = document.querySelector('#submit');
+
 submit.addEventListener('click', function(e) {
-    e.preventDefault();
-    var arrStr = "";
-    for (var j = 0; j < oosList.length; j++) {
-        
+    e.preventDefault(); 
+    for (var j = 0; j < oosList.length; j++) {        
         arrStr += JSON.stringify(oosList[j]);
-        console.log(arrStr);
-        
+        console.log(arrStr);        
     }
-    jsonStr = JSON.stringify(arrStr);
-    console.log(jsonStr);
     
-    alert("JSON saved like this:\n" + jsonStr);   
+    alert("JSON saved like this:\n" + arrStr);  
+    return arrStr;
 });
 
 //function save(e) {

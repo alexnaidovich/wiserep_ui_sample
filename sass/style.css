@@ -61,6 +61,10 @@ body * {
   box-sizing: border-box;
 }
 
+b {
+  font-weight: bold;
+}
+
 h, h1, h2, h3 {
   line-height: 1.5em;
 }
@@ -86,7 +90,7 @@ form {
 }
 
 .sku-second {
-  background: #999;
+  background: #ccc;
 }
 
 input[type="number"] {
