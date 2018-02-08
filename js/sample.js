@@ -7,18 +7,50 @@ var skuNotEnough = false;
 var skuQuantity = "";
 var skuComment = "";
 
-var sku = function(name, oos, notEnough, q, comment) {
+var sku = function(name, oos, notEnough) {
     this.name = name;
     this.oos = oos;
     this.notEnough = notEnough;
-    this.quantity = +q;
-    this.comment = comment;
+    this.quantity = "";
+    this.comment = "";
     
 };
 
 quant();
 
 for (var i = 0; i < skuList.length; i++) {
+    for (var radio = 0; radio < skuList[i].querySelectorAll('input[type="radio"]').length; radio++) {
+        skuList[i].querySelectorAll('input[type="radio"]')[radio].addEventListener('change', function() {
+           skuName = this.parentNode.parentNode.querySelector('p').innerText;
+           for (var key = 0; key <= oosList.length; key++) {
+               if (oosList[0] === undefined || oosList[key].name !== skuName) {
+                   if (this.parentNode.parentNode.querySelectorAll('input[type="radio"]')[0].checked === true) {
+                       skuOOS = true;
+                       /*if (this.parentNode.parentNode.querySelector('input[type="number"]') !== null) {
+                            this.parentNode.parentNode.querySelector('input[type="number"]').remove();
+                            }*/  //remove on change event 
+                   } else {
+                       skuOOS = false;
+                   }
+                   if (this.parentNode.parentNode.querySelectorAll('input[type="radio"]')[1].checked === true) {
+                       skuNotEnough = true;                    
+                       //skuQuantity = this.parentNode.querySelector('input[type="number"]').value.toString();
+                   } else {
+                       skuNotEnough = false;
+                       //skuQuantity = "";
+                   }
+                   
+                   addSku();
+               } //else if (key !== 0 || oosList[key].name !== skuName) {
+                  // break;                   
+               //}
+           } 
+        });
+    }
+}
+
+
+/*for (var i = 0; i < skuList.length; i++) {
         skuList[i].querySelector('button[class="add"]').addEventListener('click', function(){            
             if (this.getAttribute("name") === "remove") {
                 skuName = this.previousElementSibling.innerText;
@@ -83,11 +115,12 @@ for (var i = 0; i < skuList.length; i++) {
 
             });
     }
+*/
 
 function addSku() {
     console.log(skuName + " " + skuOOS + " " + skuNotEnough + " " + skuQuantity + " " + skuComment);
     
-    oosList.push(new sku(skuName, skuOOS, skuNotEnough, skuQuantity, skuComment)); 
+    oosList.push(new sku(skuName, skuOOS, skuNotEnough)); 
     console.log(oosList);
 }
 
